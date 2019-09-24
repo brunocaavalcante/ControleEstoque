@@ -71,11 +71,12 @@
 @Html.Hidden("id_cadastro")
 <div id="modal_cadastro" class="form-horizontal" style="display:none" role="dialog">
     <fieldset>
+        <div id="msg_error_aviso" class="text-danger invisivel"></div>
         <div class="row">
             <div class="form-group">
                 @Html.Label("txt_nome", "Nome", new { @class = "col-md-3 control-label" })
                 <div class="col-md-12" style="margin-left:90px">
-                    @Html.TextBox("txt_nome", null, new { @class = "form-control" })
+                    @Html.TextBox("txt_nome", null, new { @class = "form-control" })<!--Primeiro especificammos qual o id, depois o label e por ultimo alguma class CSS-->
                 </div>
             </div>
             <div class="form-group">
@@ -89,9 +90,11 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="modal-footer">
-                        <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i> Sair</a>
+                        <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>Sair</a>
                         <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
                     </div>
+                    <div id="msg_aviso"  class="alert alert-warning invisivel">Falta preencher os campos acima!</div>
+                    <div id="msg_error"  class="alert alert-danger invisivel">Ops deu ruim!</div>
                 </div>
             </div>
         </div>
@@ -101,11 +104,11 @@
 @section Scripts{
 <script>
         function abrir_form(dados) {
-            $('#id_cadastro').val(dados.Id);
+            $('#id_cadastro').val(dados.Id); //Preenche os campos do form
             $('#txt_nome').val(dados.Nome);
             $('#cbx_ativo').prop('checked', dados.Ativo);
             var modal_cadastro = $('#modal_cadastro');
-            bootbox.dialog({
+            bootbox.dialog({  // Cria um alert com bootbox com os campos acima
                 title: '@ViewBag.Title',
                 message: modal_cadastro
             })
@@ -129,11 +132,16 @@
                 '</td>' +
                 '</tr>';
             return ret;
-        }
-        $(document).on('click', '#btn_incluir', function () {
+    }
+
+        $(document).on('click', "#btn_incluir", function () {            
+            $('#msg_aviso').hide();
+            $('#msg_error').hide();
+            $('#msg_error_aviso').hide();
             abrir_form({ Id: 0, Nome: '', Ativo: true });
         })
-        .on('click', '.btn-alterar', function () {
+
+    $(document).on('click', '.btn-alterar', function () {
             var btn = $(this),
                 id = btn.closest('tr').attr('data-id'),
                 url = '@Url.Action("RecuperarGrupoProduto", "Cadastro")',
@@ -143,8 +151,9 @@
                     abrir_form(response);
                 }
             });
-        })
-        .on('click', '.btn-excluir', function () {
+            })
+
+        $(document).on('click', '.btn-excluir', function () {
             var btn = $(this),
                 tr = btn.closest('tr'),
                 id = tr.attr('data-id'),
@@ -172,8 +181,9 @@
                     }
                 }
             });
-        })
-        .on('click', '#btn_confirmar', function () {
+            })
+
+        $(document).on('click', '#btn_confirmar', function () {
             var btn = $(this),
                 url = '@Url.Action("SalvarGrupoProduto", "Cadastro")',
                 param = {
@@ -182,10 +192,11 @@
                     Ativo: $('#cbx_ativo').prop('checked')
                 };
             $.post(url, param, function (response) {
-                if (response) {
+                if (response.Resultado == "OK") {
                     if (param.Id == 0) {
+                        param.Id = response.IdSalvo;
                         var table = $('#grid_cadastro').find('tbody'),
-                            linha = criar_linha_grid(response); //aqui estamos adicionando uma nova linha na tabela
+                            linha = criar_linha_grid(param); //aqui estamos adicionando uma nova linha na tabela
                         table.append(linha);
                     }
                     else {
@@ -198,7 +209,28 @@
                     }
                     $('#modal_cadastro').parents('.bootbox').modal('hide');
                 }
+                else if (response.Resultado == "ERRO") {
+                    $('#msg_aviso').hide();
+                    $('#msg_error').show();
+                    $('#msg_error_aviso').hide();
+                }
+                else if (response.Resultado == "AVISO") {
+                    $('#msg_error_aviso').empty();
+                    $('#msg_error_aviso').append(formatar_msg_aviso(response.Mensagens));//Adicionando a msg de erro a div msg_aviso e chama a função para coloca a msg no formato certo para não ficar o json feio
+                    $('#msg_aviso').show();
+                    $('#msg_error').hide();
+                    $('#msg_error_aviso').show();
+                }
             });
         });
+
+    function formatar_msg_aviso(msg) {
+        var resp = '';
+
+        for (let i = 0; i < msg.length; i++) {
+            resp = '<li>' + msg[i] + '</li>';
+        }
+        return '<ul>' + resp + '</ul>';
+    }
 </script>
 }

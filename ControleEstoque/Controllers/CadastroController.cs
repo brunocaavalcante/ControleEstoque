@@ -44,12 +44,13 @@ namespace ControleEstoque.Controllers
         {
             var resultado = "OK";
             var mensagens = new List<string>();
-            var idSalvo = string.Empty;
+            var idSalvo = "";
+            Console.WriteLine("Passou aqui");
 
             if (!ModelState.IsValid)
             {
                 resultado = "AVISO";
-                mensagens = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();
+                mensagens = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();//Retorna os objetos que tiveram erros selecione muitos valores e transforma em lista
             }
             else
             {
@@ -61,18 +62,20 @@ namespace ControleEstoque.Controllers
                     {
                         registroBD = model;
                         registroBD.Id = _listaGrupoProduto.Max(x => x.Id) + 1;
-                        _listaGrupoProduto.Add(registroBD);
+                        _listaGrupoProduto.Add(registroBD);               
                     }
                     else
                     {
                         registroBD.Nome = model.Nome;
-                        registroBD.Ativo = model.Ativo;
+                        registroBD.Ativo = model.Ativo;                        
                     }
+                    idSalvo = registroBD.Id.ToString();
                 }
                 catch (Exception ex)
                 {
                     resultado = "ERRO";
                 }
+               
             }
 
             return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
@@ -81,7 +84,7 @@ namespace ControleEstoque.Controllers
         [Authorize]
         public ActionResult GrupoProduto()
         {
-            return View(_listaGrupoProduto);
+            return View(GrupoProdutoModel.RecuperarLista());
         }
         [Authorize]
         public ActionResult MarcaProduto()

@@ -38,3 +38,7 @@ textarea {
 #modal_cadastro{
     justify-content:center;
 }
+
+.invisivel {
+    display: none;
+}
