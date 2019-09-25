@@ -44,5 +44,53 @@ namespace ControleEstoque.Models
 
             return ret;
         }
+
+        public static GrupoProdutoModel findGrupoProduto(int id)
+        {
+            GrupoProdutoModel ret = null;
+
+            using (var conexao = new SqlConnection())
+            {
+                conexao.ConnectionString = @"Data Source=USER-PC;Initial Catalog=controle-estoque;User Id=brunoc;Password=123";
+                conexao.Open();
+                using (var comando = new SqlCommand())
+                {
+                    comando.Connection = conexao;
+                    comando.CommandText = string.Format("select * from grupo_produto where id = {0}",id);
+                    var reader = comando.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        ret = new GrupoProdutoModel
+                        {
+                            Id = (int)reader["id"],
+                            Nome = (string)reader["nome"],
+                            Ativo = (bool)reader["ativo"]
+                        };
+                    }
+                }
+            }
+
+            return ret;
+        }
+
+        public static bool deleteGrupoProduto(int id)
+        {
+            bool ret = false;
+            if (findGrupoProduto(id) != null)
+            {
+                using (var conexao = new SqlConnection())
+                {
+                    conexao.ConnectionString = @"Data Source=USER-PC;Initial Catalog=controle-estoque;User Id=brunoc;Password=123";
+                    conexao.Open();
+                    using (var comando = new SqlCommand())
+                    {
+                        comando.Connection = conexao;
+                        comando.CommandText = string.Format("delete from grupo_produto where id = {0}", id);
+                        ret = (comando.ExecuteNonQuery() > 0);
+                    }
+                }
+            }
+            return ret;
+        }
     }
 }

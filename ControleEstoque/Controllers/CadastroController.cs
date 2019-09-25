@@ -19,7 +19,7 @@ namespace ControleEstoque.Controllers
         [Authorize]
         public ActionResult RecuperarGrupoProduto(int id)
         {
-            return Json(_listaGrupoProduto.Find(x => x.Id == id));
+            return Json(GrupoProdutoModel.findGrupoProduto(id));
         }
 
         [HttpPost]
@@ -35,7 +35,7 @@ namespace ControleEstoque.Controllers
                 ret = true;
             }
 
-            return Json(ret);
+            return Json(GrupoProdutoModel.deleteGrupoProduto(id));
         }
 
         [HttpPost]
