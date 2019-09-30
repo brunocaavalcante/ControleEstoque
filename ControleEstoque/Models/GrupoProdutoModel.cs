@@ -23,7 +23,7 @@ namespace ControleEstoque.Models
 
             using (var conexao = new SqlConnection()) 
             {
-                conexao.ConnectionString = @"Data Source=USER-PC;Initial Catalog=controle-estoque;User Id=brunoc;Password=123";
+                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
                 using (var comando = new SqlCommand())
                 {
@@ -51,7 +51,7 @@ namespace ControleEstoque.Models
 
             using (var conexao = new SqlConnection())
             {
-                conexao.ConnectionString = @"Data Source=USER-PC;Initial Catalog=controle-estoque;User Id=brunoc;Password=123";
+                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
                 using (var comando = new SqlCommand())
                 {
@@ -78,9 +78,10 @@ namespace ControleEstoque.Models
             bool ret = false;
             if (findGrupoProduto(id) != null)
             {
+
                 using (var conexao = new SqlConnection())
                 {
-                    conexao.ConnectionString = @"Data Source=USER-PC;Initial Catalog=controle-estoque;User Id=brunoc;Password=123";
+                    conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                     conexao.Open();
                     using (var comando = new SqlCommand())
                     {
@@ -91,6 +92,39 @@ namespace ControleEstoque.Models
                 }
             }
             return ret;
+        }
+
+        public int salvarGrupoProduto()
+        {
+            int ret = 0;
+            var model = findGrupoProduto(this.Id);
+
+            using (var conexao = new SqlConnection())
+            {
+                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.Open();
+                using (var comando = new SqlCommand())
+                {
+                    comando.Connection = conexao;
+                    if (model == null)
+                    { //Case Inserção
+                        comando.CommandText = string.Format("insert into grupo_produto(nome,ativo) values ('{0}',{1});select convert(int,scope_identity())", this.Nome, this.Ativo ? 1 : 0); //scope_identity retorna o id do ultimo valor inserido na tabela
+                        ret = (int)comando.ExecuteScalar();
+                    }
+                    else
+                    { //Case Atualização
+                        comando.CommandText = string.Format(
+                            "update grupo_produto set nome = '{0}'," +
+                            "ativo = {1} where id = {2}", this.Nome, this.Ativo ? 1 : 0,this.Id);
+                        if (comando.ExecuteNonQuery() > 0)
+                        {
+                            ret = this.Id;
+                        }
+                    }
+                }
+
+                return ret;
+            }
         }
     }
 }

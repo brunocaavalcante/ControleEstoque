@@ -71,7 +71,7 @@
 @Html.Hidden("id_cadastro")
 <div id="modal_cadastro" class="form-horizontal" style="display:none" role="dialog">
     <fieldset>
-        <div id="msg_error_aviso" class="text-danger invisivel"></div>
+        <div id="msg_error_aviso" class="text-danger"></div>
         <div class="row">
             <div class="form-group">
                 @Html.Label("txt_nome", "Nome", new { @class = "col-md-3 control-label" })
@@ -93,8 +93,8 @@
                         <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>Sair</a>
                         <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
                     </div>
-                    <div id="msg_aviso"  class="alert alert-warning invisivel">Falta preencher os campos acima!</div>
-                    <div id="msg_error"  class="alert alert-danger invisivel">Ops deu ruim!</div>
+                    <div id="msg_aviso"  class="alert alert-warning">Falta preencher os campos acima!</div>
+                    <div id="msg_error"  class="alert alert-danger">Ops deu ruim!</div>
                 </div>
             </div>
         </div>
@@ -120,7 +120,8 @@
             .on('hidden.bs.modal', function () {
                 modal_cadastro.hide().appendTo('body');
             });
-        }
+    }
+
         function criar_linha_grid(dados) {
             var ret =
                 '<tr data-id=' + dados.Id + '>' +
@@ -142,6 +143,9 @@
         })
 
     $(document).on('click', '.btn-alterar', function () {
+        $('#msg_aviso').hide();
+        $('#msg_error').hide();
+        $('#msg_error_aviso').hide();
             var btn = $(this),
                 id = btn.closest('tr').attr('data-id'),
                 url = '@Url.Action("RecuperarGrupoProduto", "Cadastro")',

@@ -26,15 +26,6 @@ namespace ControleEstoque.Controllers
         [Authorize]
         public ActionResult ExcluirGrupoProduto(int id)
         {
-            var ret = false;
-
-            var registroBD = _listaGrupoProduto.Find(x => x.Id == id);
-            if (registroBD != null)
-            {
-                _listaGrupoProduto.Remove(registroBD);
-                ret = true;
-            }
-
             return Json(GrupoProdutoModel.deleteGrupoProduto(id));
         }
 
@@ -69,7 +60,15 @@ namespace ControleEstoque.Controllers
                         registroBD.Nome = model.Nome;
                         registroBD.Ativo = model.Ativo;                        
                     }
-                    idSalvo = registroBD.Id.ToString();
+                    var id = model.salvarGrupoProduto();
+                    if (id > 0)
+                    {
+                        idSalvo = id.ToString();
+                    }
+                    else
+                    {
+                        resultado = "ERRO";
+                    }
                 }
                 catch (Exception ex)
                 {
