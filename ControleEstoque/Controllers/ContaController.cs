@@ -39,7 +39,7 @@ namespace ControleEstoque.Controllers
                 }
                 else
                 {
-                    RedirectToAction("Index", "Home"); /* Se não estiver no dominio redirecionamos para home*/
+                   return RedirectToAction("Index", "Home"); /* Se não estiver no dominio redirecionamos para home*/
                 }
             }
             else /* Se as crendenciais forem digitadas erradas mostramos uma Mensagem de Erro*/
