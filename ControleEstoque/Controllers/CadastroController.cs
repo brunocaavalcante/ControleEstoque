@@ -8,22 +8,18 @@ namespace ControleEstoque.Controllers
 {
     public class CadastroController : Controller
     {
-        private static List<GrupoProdutoModel> _listaGrupoProduto = new List<GrupoProdutoModel>()
-        {
-            new GrupoProdutoModel() { Id=1, Nome="Livros", Ativo=true },
-            new GrupoProdutoModel() { Id=2, Nome="Mouses", Ativo=true },
-            new GrupoProdutoModel() { Id=3, Nome="Monitores", Ativo=false }
-        };
-
+        
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
         public ActionResult RecuperarGrupoProduto(int id)
         {
             return Json(GrupoProdutoModel.findGrupoProduto(id));
         }
 
-        [HttpPost]
+        [HttpPost] //Tipo de requisição
         [Authorize]
+        [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
         public ActionResult ExcluirGrupoProduto(int id)
         {
             return Json(GrupoProdutoModel.deleteGrupoProduto(id));
@@ -31,6 +27,7 @@ namespace ControleEstoque.Controllers
 
         [HttpPost]
         [Authorize]
+        [ValidateAntiForgeryToken] //Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
         public ActionResult SalvarGrupoProduto(GrupoProdutoModel model)
         {
             var resultado = "OK";
@@ -47,20 +44,8 @@ namespace ControleEstoque.Controllers
             {
                 try
                 {
-                    var registroBD = _listaGrupoProduto.Find(x => x.Id == model.Id);
-
-                    if (registroBD == null)
-                    {
-                        registroBD = model;
-                        registroBD.Id = _listaGrupoProduto.Max(x => x.Id) + 1;
-                        _listaGrupoProduto.Add(registroBD);               
-                    }
-                    else
-                    {
-                        registroBD.Nome = model.Nome;
-                        registroBD.Ativo = model.Ativo;                        
-                    }
                     var id = model.salvarGrupoProduto();
+
                     if (id > 0)
                     {
                         idSalvo = id.ToString();
