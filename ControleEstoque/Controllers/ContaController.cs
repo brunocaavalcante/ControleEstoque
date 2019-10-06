@@ -27,11 +27,11 @@ namespace ControleEstoque.Controllers
                 return View(login);
             }
 
-            var achou = UsuarioModel.ValidarUser(login.Usuario,login.Senha);
+            var usuario = UsuarioModel.ValidarUser(login.Usuario,login.Senha);
 
-            if (achou)
+            if (usuario != null)
             {
-               FormsAuthentication.SetAuthCookie(login.Usuario, login.LembrarMe);/*Criando o Cookie de Autenticação*/
+               FormsAuthentication.SetAuthCookie(usuario.Nome, login.LembrarMe);/*Criando o Cookie de Autenticação*/
 
                 if (Url.IsLocalUrl(returnUrl)) /*Verificando se a Url está dentro do dominio*/
                 {

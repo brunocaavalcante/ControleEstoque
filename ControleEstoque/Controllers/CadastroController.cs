@@ -8,7 +8,7 @@ namespace ControleEstoque.Controllers
 {
     public class CadastroController : Controller
     {
-        
+        #region GrupoProduto
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
@@ -70,26 +70,49 @@ namespace ControleEstoque.Controllers
         {
             return View(GrupoProdutoModel.RecuperarLista());
         }
+        #endregion
+
+        #region Usuario
+        [Authorize]
+        public ActionResult Usuario()
+        {
+            return View();
+        }
+        #endregion
+
+        #region MarcaProduto
         [Authorize]
         public ActionResult MarcaProduto()
         {
             return View();
         }
+        #endregion
+
+        #region LocalProduto
         [Authorize]
         public ActionResult LocalProduto()
         {
             return View();
         }
+        #endregion
+
+        #region UnidadeMedida
         [Authorize]
         public ActionResult UnidadeMedida()
         {
             return View();
         }
+        #endregion
+
+        #region Produto
         [Authorize]
         public ActionResult Produto()
         {
             return View();
         }
+        #endregion
+
+
         [Authorize]
         public ActionResult Pais()
         {
@@ -115,12 +138,6 @@ namespace ControleEstoque.Controllers
         {
             return View();
         }
-        [Authorize]
-        public ActionResult Usuario()
-        {
-            return View();
-        }
-
-
+        
     }
 }
