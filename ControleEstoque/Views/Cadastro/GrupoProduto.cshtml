@@ -50,21 +50,44 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
-                        {<!--Toda vez que usamos a variavel Model estamos fazendo referencia ao baind que está no topo do arquivo-->
+                        @{
+                            var linha = 0;
+                            foreach (var item in Model)
+                            {<!--Toda vez que usamos a variavel Model estamos fazendo referencia ao baind que está no topo do arquivo-->
+                                linha = linha + 1;
+                                if (linha <= 5)
+                                {
+                                    <tr data-id="@item.Id">
+                                        <td>@item.Nome</td>
+                                        <td>@{var ativo = (item.Ativo ? "SIM" : "NAO");}@ativo</td>
+                                        <td>
+                                            <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> Alterar</a>
+                                            <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    break;
+                                }
 
-                            <tr data-id="@item.Id">
-                                <td>@item.Nome</td>
-                                <td>@{var ativo = (item.Ativo ? "SIM" : "NAO");}@ativo</td>
-                                <td>
-                                    <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> Alterar</a>
-                                    <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
-                                </td>
-                            </tr>
+                            }
                         }
                     </tbody>
                 </table>
             </div>
+            <!--Paginação-->
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    @for (int i = 2; i < ViewBag.QuantPaginas; i++)
+                    {
+                        <li class="page-item"><a class="page-link" href="#">@i</a></li>
+                    }
+                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                </ul>
+            </nav>
         </div>
     </section>
 </div>
@@ -94,8 +117,8 @@
                         <a id="btn_sair" class="btn btn-default" role="button" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>Sair</a>
                         <a id="btn_confirmar" class="btn btn-primary" role="button"><i class="glyphicon glyphicon-ok"></i> Salvar</a>
                     </div>
-                    <div id="msg_aviso"  class="alert alert-warning">Falta preencher os campos acima!</div>
-                    <div id="msg_error"  class="alert alert-danger">Ops deu ruim!</div>
+                    <div id="msg_aviso" class="alert alert-warning">Falta preencher os campos acima!</div>
+                    <div id="msg_error" class="alert alert-danger">Ops deu ruim!</div>
                 </div>
             </div>
         </div>
@@ -103,7 +126,7 @@
 </div>
 
 @section Scripts{
-<script>
+    <script>
 
         function add_anti_forgery_token(data) { //Pega os dados(param) enviados nos posts abaixo e adiciona mais um parametro que é o token de verificação criado na linha 74 assim o controle valida se é um usuario valido ou não
             data.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
@@ -142,7 +165,7 @@
             return ret;
     }
 
-        $(document).on('click', "#btn_incluir", function () {            
+        $(document).on('click', "#btn_incluir", function () {
             $('#msg_aviso').hide();
             $('#msg_error').hide();
             $('#msg_error_aviso').hide();
@@ -216,7 +239,7 @@
                         //Aqui estamos alterando os conteudos da tabela
                         linha
                             .eq(0).html(param.Nome).end() // se a coluna for igual a 0 preenchemos o html com o parametro nome
-                            .eq(1).html(param.Ativo ? 'SIM' : 'NÃO');// se a coluna for igual a 1 preenchemos com o status 
+                            .eq(1).html(param.Ativo ? 'SIM' : 'NÃO');// se a coluna for igual a 1 preenchemos com o status
                     }
                     $('#modal_cadastro').parents('.bootbox').modal('hide');
                 }
@@ -233,7 +256,17 @@
                     $('#msg_error_aviso').show();
                 }
             });
-        });
+        })
+        .on('click', '.page-item', function(){  //assim pegamos a class da pages na linha 86
+            var btn = $(this); //pagando o botão que foi clicado
+            var pagina = btn.text();
+            var url = @Url.Action("GrupoProdutoPagina", "Cadastro");
+            $.post(url, add_anti_forgery_token({ pagina }), function (response) {
+                if (response) {
+
+                }
+            })
+        })
 
     function formatar_msg_aviso(msg) {
         var resp = '';
@@ -243,5 +276,5 @@
         }
         return '<ul>' + resp + '</ul>';
     }
-</script>
+    </script>
 }

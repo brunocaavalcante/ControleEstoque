@@ -10,7 +10,7 @@ namespace ControleEstoque.Models
 {
     public class UsuarioModel
     {
-        public int Id { get; set; }
+        public int Id { get; set; }        
         public string Nome { get; set; }
         public string Login { get; set; }
         public string Senha { get; set; }
@@ -34,22 +34,23 @@ namespace ControleEstoque.Models
 
                     if (read.Read())
                     {
-                        ret = new UsuarioModel { //Criamos um usuario com os valores retornados pela consulta 
-                            Id =(int) read["id"],
-                            Nome =(string) read["nome"],
+                        ret = new UsuarioModel
+                        { //Criamos um usuario com os valores retornados pela consulta 
+                            Id = (int)read["id"],
+                            Nome = (string)read["nome"],
                             Login = (string)read["login"],
-                            Senha = (string) read["senha"]
+                            Senha = (string)read["senha"]
                         };
-                            
+
                     }
                 }
             }
             return ret;
         }
 
-        public static List<GrupoProdutoModel> RecuperarLista()
+        public static List<UsuarioModel> RecuperarLista()
         {
-            var ret = new List<GrupoProdutoModel>();
+            var ret = new List<UsuarioModel>();
 
             using (var conexao = new SqlConnection())
             {
@@ -58,15 +59,15 @@ namespace ControleEstoque.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "select * from grupo_produto order by nome";
+                    comando.CommandText = "select * from usuario order by nome";
                     var reader = comando.ExecuteReader();
                     while (reader.Read())
                     {
-                        ret.Add(new GrupoProdutoModel //Para cada objeto da lista retornado no ResultSet estamos atribuindo os valores do banco
+                        ret.Add(new UsuarioModel //Para cada objeto da lista retornado no ResultSet estamos atribuindo os valores do banco
                         {
                             Id = (int)reader["id"],
                             Nome = (string)reader["nome"],
-                            Ativo = (bool)reader["ativo"]
+                            Login = (string)reader["login"]
                         });
                     }
                 }

@@ -1,3 +1,4 @@
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.ApplicationInsights.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\ApplicationInsights.config
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\ControleEstoque.dll.config
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\ControleEstoque.dll
@@ -55,10 +56,13 @@ C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.Perf
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.ServerTelemetryChannel.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.Web.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.WindowsServer.dll
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.ApplicationInsights.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AspNet.TelemetryCorrelation.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.EntityFramework.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.Design.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Newtonsoft.Json.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Diagnostics.DiagnosticSource.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.Helpers.dll
@@ -69,6 +73,11 @@ C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.WebPag
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.WebPages.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.WebPages.Razor.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\WebGrease.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Google.Protobuf.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.xml
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.EntityFramework.xml
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.xml
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.Design.xml
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.Helpers.xml
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.Mvc.xml
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\System.Web.Optimization.xml
@@ -96,12 +105,3 @@ C:\Users\user\source\repos\ControleEstoque\ControleEstoque\obj\Debug\ControleEst
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\obj\Debug\ControleEstoque.csproj.CopyComplete
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\obj\Debug\ControleEstoque.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\obj\Debug\ControleEstoque.pdb
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.dll
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.EntityFramework.dll
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.Design.dll
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.dll
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Google.Protobuf.dll
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.xml
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySql.Data.EntityFramework.xml
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.xml
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\MySQL.Data.EntityFrameworkCore.Design.xml
