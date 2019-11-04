@@ -10,7 +10,7 @@ namespace ControleEstoque.Models
 {
     public class UsuarioModel
     {
-        public int Id { get; set; }        
+        public int Id { get; set; }
         public string Nome { get; set; }
         public string Login { get; set; }
         public string Senha { get; set; }
@@ -147,12 +147,23 @@ namespace ControleEstoque.Models
                         comando.Parameters.Add("@senha", SqlDbType.VarChar).Value = CriptoHelp.HashMD5(this.Senha); //CriptoHelp classe que criamos para inserir a senha criptografada no banco através de md5
                         ret = (int)comando.ExecuteScalar();
                     }
-                    else
+                    else if (this.Senha != "")
                     { //Case Atualização
                         comando.CommandText = "update usuario set nome = @nome, login = @login, senha = @senha where id = @id";
                         comando.Parameters.Add("@nome", SqlDbType.VarChar).Value = this.Nome;
                         comando.Parameters.Add("@login", SqlDbType.VarChar).Value = this.Login;
                         comando.Parameters.Add("@senha", SqlDbType.VarChar).Value = CriptoHelp.HashMD5(this.Senha);
+                        comando.Parameters.Add("@id", SqlDbType.Int).Value = this.Id;
+                        if (comando.ExecuteNonQuery() > 0)
+                        {
+                            ret = this.Id;
+                        }
+                    }
+                    else
+                    {
+                        comando.CommandText = "update usuario set nome = @nome, login = @login where id = @id";
+                        comando.Parameters.Add("@nome", SqlDbType.VarChar).Value = this.Nome;
+                        comando.Parameters.Add("@login", SqlDbType.VarChar).Value = this.Login;
                         comando.Parameters.Add("@id", SqlDbType.Int).Value = this.Id;
                         if (comando.ExecuteNonQuery() > 0)
                         {

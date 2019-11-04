@@ -1,4 +1,3 @@
-C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.ApplicationInsights.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\ApplicationInsights.config
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\ControleEstoque.dll.config
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\ControleEstoque.dll
@@ -56,6 +55,7 @@ C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.Perf
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.ServerTelemetryChannel.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.Web.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.ApplicationInsights.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.AspNet.TelemetryCorrelation.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 C:\Users\user\source\repos\ControleEstoque\ControleEstoque\bin\Microsoft.Web.Infrastructure.dll

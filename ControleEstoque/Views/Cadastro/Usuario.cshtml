@@ -128,7 +128,7 @@
             $('#id_cadastro').val(dados.Id); //Preenche os campos do form
             $('#txt_nome').val(dados.Nome);
             $('#txt_login').val(dados.Login);
-            $('#txt_senha').val("" + @ViewBag.SenhaPadrao);
+            $('#txt_senha').val(dados.Senha || @ViewBag.SenhaPadrao);
             $('#txt_senha2').val(""+ @ViewBag.SenhaPadrao);
             var modal_cadastro = $('#modal_cadastro');
             bootbox.dialog({  // Cria um alert com bootbox com os campos acima
@@ -162,7 +162,7 @@
             $('#msg_aviso').hide();
             $('#msg_error').hide();
             $('#msg_error_aviso').hide();
-            abrir_form({ Id: 0, Nome: '', Ativo: true });
+            abrir_form({ Id: 0, Nome: '', Login: "", Senha: "", Senha2: "" });
         })
 
         $(document).on('click', '.btn-alterar', function () {

@@ -27,7 +27,8 @@ namespace ControleEstoque.Controllers
                 return View(login);
             }
 
-            var usuario = UsuarioModel.ValidarUser(login.Usuario,login.Senha);
+            
+var usuario = UsuarioModel.ValidarUser(login.Usuario,login.Senha);
 
             if (usuario != null)
             {
@@ -48,6 +49,7 @@ namespace ControleEstoque.Controllers
             }
             return View(login);
         }
+
         public ActionResult LogOff()
         {
             FormsAuthentication.SignOut();
