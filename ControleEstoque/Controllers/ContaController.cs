@@ -10,7 +10,7 @@ namespace ControleEstoque.Controllers
 {
     public class ContaController : Controller
     {
-      
+
         [AllowAnonymous] /*Tornando o método Publico*/
         public ActionResult Login(string returnUrl)
         {
@@ -20,19 +20,19 @@ namespace ControleEstoque.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(LoginViewModel login,string returnUrl)
+        public ActionResult Login(LoginViewModel login, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(login);
             }
 
-            
-var usuario = UsuarioModel.ValidarUser(login.Usuario,login.Senha);
+
+            var usuario = UsuarioModel.ValidarUser(login.Usuario, login.Senha);
 
             if (usuario != null)
             {
-               FormsAuthentication.SetAuthCookie(usuario.Nome, login.LembrarMe);/*Criando o Cookie de Autenticação*/
+                FormsAuthentication.SetAuthCookie(usuario.Nome, login.LembrarMe);/*Criando o Cookie de Autenticação*/
 
                 if (Url.IsLocalUrl(returnUrl)) /*Verificando se a Url está dentro do dominio*/
                 {
@@ -40,7 +40,7 @@ var usuario = UsuarioModel.ValidarUser(login.Usuario,login.Senha);
                 }
                 else
                 {
-                   return RedirectToAction("Index", "Home"); /* Se não estiver no dominio redirecionamos para home*/
+                    return RedirectToAction("Index", "Home"); /* Se não estiver no dominio redirecionamos para home*/
                 }
             }
             else /* Se as crendenciais forem digitadas erradas mostramos uma Mensagem de Erro*/

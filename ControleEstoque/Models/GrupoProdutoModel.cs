@@ -13,23 +13,24 @@ namespace ControleEstoque.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Preencha o Nome!")]
+        [Required(ErrorMessage = "Preencha o Nome!")]
         public string Nome { get; set; }
 
         public bool Ativo { get; set; }
 
-        public static List<GrupoProdutoModel> RecuperarLista() 
+        public static List<GrupoProdutoModel> RecuperarLista(int pagina, int tamanho)
         {
             var ret = new List<GrupoProdutoModel>();
+            int ini = (pagina - 1) * tamanho;
 
-            using (var conexao = new SqlConnection()) 
+            using (var conexao = new SqlConnection())
             {
                 conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "select * from grupo_produto order by nome";
+                    comando.CommandText = string.Format("select * from grupo_produto order by nome offset {0} rows fetch next {1} rows only", ini > 0 ? ini - 1 : ini, tamanho);
                     var reader = comando.ExecuteReader();
                     while (reader.Read())
                     {
@@ -130,6 +131,24 @@ namespace ControleEstoque.Models
                 }
 
                 return ret;
+            }
+        }
+
+        public static int QuantTotal()
+        {
+            using (var conexao = new SqlConnection())
+            {
+                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.Open();
+                int quantidade;
+                using (var comando = new SqlCommand())
+                {
+                    comando.Connection = conexao;
+                    comando.CommandText = "select count(*) from grupo_produto";
+                    quantidade = (int)comando.ExecuteScalar();
+                }
+
+                return quantidade;
             }
         }
     }

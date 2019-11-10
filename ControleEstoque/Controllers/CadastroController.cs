@@ -83,6 +83,8 @@ namespace ControleEstoque.Controllers
         #endregion
 
         #region GrupoProduto
+        private const int _quantMaxLinhasPorPagina = 5;
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
@@ -142,23 +144,24 @@ namespace ControleEstoque.Controllers
         [Authorize]
         public ActionResult GrupoProduto()
         {
-            var lista = GrupoProdutoModel.RecuperarLista();
+            var lista = GrupoProdutoModel.RecuperarLista(1, _quantMaxLinhasPorPagina);
             ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
             ViewBag.PaginaAtual = 1; //Aqui informamos a pagina selecionado quando o usuario faz um get a pagina inicial sempre será 1
-            ViewBag.QuantPaginas = (lista.Count / ViewBag.QtdMaximaLinhasPagina);
-            return View(lista);            
+            ViewBag.QuantPaginas = (GrupoProdutoModel.QuantTotal() / ViewBag.QtdMaximaLinhasPagina);
+            ViewBag.QuantPaginas = (GrupoProdutoModel.QuantTotal() % ViewBag.QtdMaximaLinhasPagina) > 0 ? ViewBag.QuantPaginas + 1 : ViewBag.QuantPaginas;
+            return View(lista);
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult GrupoProdutoPagina(int pagina)
+        public JsonResult GrupoProdutoPagina(int pagina)
         {
-            var lista = GrupoProdutoModel.RecuperarLista();
             ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
-            ViewBag.PaginaAtual = 1; //Aqui informamos a pagina selecionado quando o usuario faz um get a pagina inicial sempre será 1
-            ViewBag.QuantPaginas = (lista.Count / ViewBag.QtdMaximaLinhasPagina);
-            return View(lista);
+            var lista = GrupoProdutoModel.RecuperarLista(pagina, ViewBag.QtdMaximaLinhasPagina);
+            ViewBag.QuantPaginas = (GrupoProdutoModel.QuantTotal()/ ViewBag.QtdMaximaLinhasPagina);
+            ViewBag.QuantPaginas = (GrupoProdutoModel.QuantTotal() % ViewBag.QtdMaximaLinhasPagina)>0? ViewBag.QuantPaginas+1: ViewBag.QuantPaginas; 
+            return Json(lista);
         }
         #endregion
 
