@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "Cadastro de Grupo de Produtos";
 }
-
+<link href="~/Content/bootstrap-select.css" rel="stylesheet" />
 <style>
     #grid_cadastro > thead > tr th:nth-child(2) {
         width: 110px;
@@ -38,6 +38,7 @@
 
         <div id="cabecalho_grid" class="row">
             <a id="btn_incluir" class="btn btn-success" role="button"><i class="glyphicon glyphicon-plus"></i> Incluir</a>
+            @Html.DropDownList("ddl_tam_pag", (SelectList)ViewBag.ListaTamanhoPag, new { @class = "selectpicker" })
         </div>
         <div class="row">
             <div class="col-md-12">
@@ -83,7 +84,7 @@
                     @for (int i = 2; i <= ViewBag.QuantPaginas; i++)
                     {
                         <li class="page-item"><a class="page-link" href="#">@i</a></li>
-                    }                    
+                    }
                 </ul>
             </nav>
         </div>
@@ -124,8 +125,9 @@
 </div>
 
 @section Scripts{
-    <script>
 
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <script>
         function add_anti_forgery_token(data) { //Pega os dados(param) enviados nos posts abaixo e adiciona mais um parametro que é o token de verificação criado na linha 74 assim o controle valida se é um usuario valido ou não
             data.__RequestVerificationToken = $('[name=__RequestVerificationToken]').val();
             return data;
@@ -176,7 +178,7 @@
         $('#msg_error_aviso').hide();
             var btn = $(this),
                 id = btn.closest('tr').attr('data-id'),
-                url = '@Url.Action("RecuperarGrupoProduto", "Cadastro")',
+                url = '@Url.Action("RecuperarGrupoProduto", "GrupoProduto")',
                 param = { 'id': id };
         $.post(url, add_anti_forgery_token(param), function (response) {
                 if (response) {
@@ -189,7 +191,7 @@
             var btn = $(this),
                 tr = btn.closest('tr'),
                 id = tr.attr('data-id'),
-                url = '@Url.Action("ExcluirGrupoProduto", "Cadastro")',
+                url = '@Url.Action("ExcluirGrupoProduto", "GrupoProduto")',
                 param = { 'id': id };
             bootbox.confirm({
                 message: "Realmente deseja excluir o grupo de produto?",
@@ -217,7 +219,7 @@
 
         $(document).on('click', '#btn_confirmar', function () {
             var btn = $(this),
-                url = '@Url.Action("SalvarGrupoProduto", "Cadastro")',
+                url = '@Url.Action("SalvarGrupoProduto", "GrupoProduto")',
                 param = {
                     Id: $('#id_cadastro').val(),
                     Nome: $('#txt_nome').val(),
@@ -256,10 +258,12 @@
             });
         })
         .on('click', '.page-item', function(){  //assim pegamos a class da pages na linha 86
-            var btn = $(this); //pagando o botão que foi clicado
-            var pagina = btn.text();
-            var url = '@Url.Action("GrupoProdutoPagina", "Cadastro")';
-            $.post(url, add_anti_forgery_token({ pagina }), function (response) {
+            var btn = $(this), //pagando o botão que foi clicado
+            pagina = btn.text(),
+            tamPag = $('#ddl_tam_pag').val(),
+            url = '@Url.Action("GrupoProdutoPagina", "GrupoProduto")',
+            param = { 'pagina': pagina, 'tamPag': tamPag };
+            $.post(url, add_anti_forgery_token(param), function (response) {
                 if (response) {
                     var table = $('#grid_cadastro').find('tbody');
                         table.empty();
@@ -271,6 +275,24 @@
                 }
             })
         })
+        .on('change', '#ddl_tam_pag', function () {
+            var ddl = $(this), //Pegando o numero de linhas selecionado pelo usuario no dropdow-list linha 41
+                tamPag = ddl.val(),
+                pagina = 1,
+                url = '@Url.Action("GrupoProdutoPagina", "GrupoProduto")',
+                param = { 'pagina': pagina, 'tamPag': tamPag };
+            $.post(url, add_anti_forgery_token(param), function (response) {
+                  if (response) {
+                      var table = $('#grid_cadastro').find('tbody');
+                      table.empty();
+                      for (var i = 0; i < response.length; i++) {
+                          table.append(criar_linha_grid(response[i]));
+                      }
+                      btn.siblings().removeClass('active');
+                      btn.addClass('active');
+                    }
+                })
+            })
 
     function formatar_msg_aviso(msg) {
         var resp = '';
