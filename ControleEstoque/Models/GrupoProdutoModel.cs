@@ -13,36 +13,36 @@ namespace ControleEstoque.Models
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage ="Preencha o Nome!")]
+        [Required(ErrorMessage = "Preencha o Nome!")]
         public string Nome { get; set; }
 
         public bool Ativo { get; set; }
 
-        public static List<GrupoProdutoModel> RecuperarLista() 
+        public static List<GrupoProdutoModel> RecuperarLista(int pag,int tam)
         {
             var ret = new List<GrupoProdutoModel>();
+            var ini = (pag-1) * tam;
 
-            using (var conexao = new SqlConnection()) 
+            using (var conexao = new SqlConnection())
             {
                 conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
                 conexao.Open();
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = "select * from grupo_produto order by nome";
+                    comando.CommandText = string.Format("select * from grupo_produto order by nome offset {0} rows fetch next {1} rows only", ini > 0 ? ini - 1 : 0, tam);//Variavel ini indica a partir de qual linha o select de começar e a variavel tam indica a quantidade de linhas de retorno
                     var reader = comando.ExecuteReader();
                     while (reader.Read())
                     {
                         ret.Add(new GrupoProdutoModel //Para cada objeto da lista retornado no ResultSet estamos atribuindo os valores do banco
                         {
-                            Id = (int)reader["id"],
-                            Nome = (string)reader["nome"],
-                            Ativo = (bool)reader["ativo"]
+                            Id = Convert.ToInt32(reader["id"]),
+                            Nome = Convert.ToString(reader["nome"]),
+                            Ativo = Convert.ToBoolean(reader["ativo"])
                         });
                     }
                 }
             }
-
             return ret;
         }
 

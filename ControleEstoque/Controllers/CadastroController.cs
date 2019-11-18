@@ -57,7 +57,7 @@ namespace ControleEstoque.Controllers
                 try
                 {
                     if (model.Senha == _senhaPadrao)
-                    {
+                    {                      
                         model.Senha = "";
                     }
 
@@ -83,6 +83,7 @@ namespace ControleEstoque.Controllers
         #endregion
 
         #region GrupoProduto
+        const int _quantidadeMaximaPorPage = 5;
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
@@ -106,8 +107,7 @@ namespace ControleEstoque.Controllers
         {
             var resultado = "OK";
             var mensagens = new List<string>();
-            var idSalvo = "";
-            Console.WriteLine("Passou aqui");
+            var idSalvo = "";          
 
             if (!ModelState.IsValid)
             {
@@ -142,9 +142,9 @@ namespace ControleEstoque.Controllers
         [Authorize]
         public ActionResult GrupoProduto()
         {
-            var lista = GrupoProdutoModel.RecuperarLista();
             ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
             ViewBag.PaginaAtual = 1; //Aqui informamos a pagina selecionado quando o usuario faz um get a pagina inicial sempre será 1
+            var lista = GrupoProdutoModel.RecuperarLista(ViewBag.PaginaAtual, ViewBag.QtdMaximaLinhasPagina);
             ViewBag.QuantPaginas = (lista.Count / ViewBag.QtdMaximaLinhasPagina);
             return View(lista);            
         }
@@ -152,13 +152,13 @@ namespace ControleEstoque.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult GrupoProdutoPagina(int pagina)
-        {
-            var lista = GrupoProdutoModel.RecuperarLista();
+        public JsonResult GrupoProdutoPagina(int pagina)
+        {            
+            var lista = GrupoProdutoModel.RecuperarLista(pagina, _quantidadeMaximaPorPage);
             ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
             ViewBag.PaginaAtual = 1; //Aqui informamos a pagina selecionado quando o usuario faz um get a pagina inicial sempre será 1
             ViewBag.QuantPaginas = (lista.Count / ViewBag.QtdMaximaLinhasPagina);
-            return View(lista);
+            return Json(lista);
         }
         #endregion
 
