@@ -1,7 +1,7 @@
 ﻿@model List<ControleEstoque.Models.GrupoProdutoModel>
 @{
     Layout = "~/Views/Shared/_Cadastro.cshtml";
-    ViewBag.Title = "Cadastro de Grupo de Produtos";
+    ViewBag.Title = "Grupo de Produto";
 }
 
 @section Styles{
@@ -69,7 +69,7 @@
             urlSalvarGrupoProduto = '@Url.Action("SalvarGrupoProduto", "GrupoProduto")',
             urlGrupoProdutoPagina = '@Url.Action("GrupoProdutoPagina", "GrupoProduto")'
 
-    </script>
+    </script> <!--Sessão de variaveis-->
     <script src="~/Scripts/Cadastro/GrupoProduto.js"></script>
-
+    <script src="~/Scripts/Cadastro/CadBase.js"></script>
 }

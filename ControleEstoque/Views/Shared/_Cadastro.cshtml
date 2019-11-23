@@ -3,12 +3,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@RenderSection("Styles", true); <!--Pega elementos dentro da sction styles nos arquivos que estão importando-->
+@RenderSection("Styles", true) <!--Pega elementos dentro da sction styles nos arquivos que estão importando-->
 @RenderBody()
-@model List<ControleEstoque.Models.GrupoProdutoModel>
-@{
-    ViewBag.Title = "Cadastro de Grupo de Produtos";
-}
+
 <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
 <link href="~/Content/Cadastro/GrupoProduto.css" rel="stylesheet" />
 
@@ -27,11 +24,11 @@
                 <table id="grid_cadastro" class="table table-bordered table-striped table-hover">
                     <thead>
                         <tr>
-                            @RenderSection("TituloGrid", true);
+                            @RenderSection("TituloGrid", true)
                         </tr>
                     </thead>
                     <tbody>
-                        @RenderSection("LinhaGrid", true);
+                        @RenderSection("LinhaGrid", true)
                     </tbody>
                 </table>
             </div>
@@ -71,5 +68,6 @@
 
 @section Scripts{
     @RenderSection("Scripts", true);
+    <script src="~/Scripts/Cadastro/CadBase.js"></script>
 }
 
