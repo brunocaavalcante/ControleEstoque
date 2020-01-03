@@ -95,6 +95,8 @@ namespace ControleEstoque.Controllers
             return Json(lista);
         }
 
+        /*Funcionalidade Issue 007*/
+
     }
 
 }
