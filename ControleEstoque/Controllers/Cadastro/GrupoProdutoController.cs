@@ -88,7 +88,7 @@ namespace ControleEstoque.Controllers
         [ValidateAntiForgeryToken]
         public JsonResult GrupoProdutoPagina(int pagina, int tamPag)
         {
-            ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
+            ViewBag.QtdMaximaLinhasPagina = tamPag; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
             var lista = GrupoProdutoModel.RecuperarLista(pagina, tamPag);
             ViewBag.QuantPaginas = (GrupoProdutoModel.QuantTotal() / tamPag);
             ViewBag.QuantPaginas = (GrupoProdutoModel.QuantTotal() % tamPag) > 0 ? ViewBag.QuantPaginas + 1 : ViewBag.QuantPaginas;

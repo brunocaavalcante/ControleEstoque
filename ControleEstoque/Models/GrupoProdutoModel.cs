@@ -18,10 +18,10 @@ namespace ControleEstoque.Models
 
         public bool Ativo { get; set; }
 
-        public static List<GrupoProdutoModel> RecuperarLista(int pag,int tam)
+        public static List<GrupoProdutoModel> RecuperarLista(int pagina, int tamanho)
         {
             var ret = new List<GrupoProdutoModel>();
-            var ini = (pag-1) * tam;
+            int ini = (pagina - 1) * tamanho;
 
             using (var conexao = new SqlConnection())
             {
@@ -30,19 +30,20 @@ namespace ControleEstoque.Models
                 using (var comando = new SqlCommand())
                 {
                     comando.Connection = conexao;
-                    comando.CommandText = string.Format("select * from grupo_produto order by nome offset {0} rows fetch next {1} rows only", ini > 0 ? ini - 1 : 0, tam);//Variavel ini indica a partir de qual linha o select de começar e a variavel tam indica a quantidade de linhas de retorno
+                    comando.CommandText = string.Format("select * from grupo_produto order by nome offset {0} rows fetch next {1} rows only", ini > 0 ? ini - 1 : ini, tamanho);
                     var reader = comando.ExecuteReader();
                     while (reader.Read())
                     {
                         ret.Add(new GrupoProdutoModel //Para cada objeto da lista retornado no ResultSet estamos atribuindo os valores do banco
                         {
-                            Id = Convert.ToInt32(reader["id"]),
-                            Nome = Convert.ToString(reader["nome"]),
-                            Ativo = Convert.ToBoolean(reader["ativo"])
+                            Id = (int)reader["id"],
+                            Nome = (string)reader["nome"],
+                            Ativo = (bool)reader["ativo"]
                         });
                     }
                 }
             }
+
             return ret;
         }
 
@@ -130,6 +131,24 @@ namespace ControleEstoque.Models
                 }
 
                 return ret;
+            }
+        }
+
+        public static int QuantTotal()
+        {
+            using (var conexao = new SqlConnection())
+            {
+                conexao.ConnectionString = ConfigurationManager.ConnectionStrings["principal"].ConnectionString;
+                conexao.Open();
+                int quantidade;
+                using (var comando = new SqlCommand())
+                {
+                    comando.Connection = conexao;
+                    comando.CommandText = "select count(*) from grupo_produto";
+                    quantidade = (int)comando.ExecuteScalar();
+                }
+
+                return quantidade;
             }
         }
     }

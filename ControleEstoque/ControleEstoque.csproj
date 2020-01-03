@@ -152,6 +152,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CadastroController.cs" />
+    <Compile Include="Controllers\Cadastro\GrupoProdutoController.cs" />
     <Compile Include="Controllers\ContaController.cs" />
     <Compile Include="Controllers\GraficosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -167,21 +168,28 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-select.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Cadastro\GrupoProduto.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootbox.min.js" />
+    <Content Include="Scripts\bootstrap-select.js" />
+    <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Cadastro\CadBase.js" />
+    <Content Include="Scripts\Cadastro\GrupoProduto.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -215,7 +223,7 @@
     <Content Include="Views\Cadastro\Pais.cshtml" />
     <Content Include="Views\Cadastro\Produto.cshtml" />
     <Content Include="Views\Cadastro\UnidadeMedida.cshtml" />
-    <Content Include="Views\Cadastro\GrupoProduto.cshtml" />
+    <Content Include="Views\GrupoProduto\Index.cshtml" />
     <Content Include="Views\Operacoes\EntradaEstoque.cshtml" />
     <Content Include="Views\Operacoes\SaidaEstoque.cshtml" />
     <Content Include="Views\Operacoes\Inventario.cshtml" />
@@ -225,6 +233,7 @@
     <Content Include="Views\Graficos\PerdaMes.cshtml" />
     <Content Include="Views\Graficos\EntradaSaidaMes.cshtml" />
     <Content Include="Views\Conta\Login.cshtml" />
+    <Content Include="Views\Shared\_Cadastro.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -57,7 +57,7 @@ namespace ControleEstoque.Controllers
                 try
                 {
                     if (model.Senha == _senhaPadrao)
-                    {                      
+                    {
                         model.Senha = "";
                     }
 
@@ -80,86 +80,6 @@ namespace ControleEstoque.Controllers
             return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
         }
 
-        #endregion
-
-        #region GrupoProduto
-        const int _quantidadeMaximaPorPage = 5;
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
-        public ActionResult RecuperarGrupoProduto(int id)
-        {
-            return Json(GrupoProdutoModel.findGrupoProduto(id));
-        }
-
-        [HttpPost] //Tipo de requisição
-        [Authorize]
-        [ValidateAntiForgeryToken]//Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
-        public ActionResult ExcluirGrupoProduto(int id)
-        {
-            return Json(GrupoProdutoModel.deleteGrupoProduto(id));
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken] //Valida o token gerado pelo usuario, utilizamos isso para evitar ataques CRSF
-        public ActionResult SalvarGrupoProduto(GrupoProdutoModel model)
-        {
-            var resultado = "OK";
-            var mensagens = new List<string>();
-            var idSalvo = "";          
-
-            if (!ModelState.IsValid)
-            {
-                resultado = "AVISO";
-                mensagens = ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).ToList();//Retorna os objetos que tiveram erros selecione muitos valores e transforma em lista
-            }
-            else
-            {
-                try
-                {
-                    var id = model.salvarGrupoProduto();
-
-                    if (id > 0)
-                    {
-                        idSalvo = id.ToString();
-                    }
-                    else
-                    {
-                        resultado = "ERRO";
-                    }
-                }
-                catch (Exception ex)
-                {
-                    resultado = "ERRO";
-                }
-
-            }
-
-            return Json(new { Resultado = resultado, Mensagens = mensagens, IdSalvo = idSalvo });
-        }
-
-        [Authorize]
-        public ActionResult GrupoProduto()
-        {
-            ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
-            ViewBag.PaginaAtual = 1; //Aqui informamos a pagina selecionado quando o usuario faz um get a pagina inicial sempre será 1
-            var lista = GrupoProdutoModel.RecuperarLista(ViewBag.PaginaAtual, ViewBag.QtdMaximaLinhasPagina);
-            ViewBag.QuantPaginas = (lista.Count / ViewBag.QtdMaximaLinhasPagina);
-            return View(lista);            
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public JsonResult GrupoProdutoPagina(int pagina)
-        {            
-            var lista = GrupoProdutoModel.RecuperarLista(pagina, _quantidadeMaximaPorPage);
-            ViewBag.QtdMaximaLinhasPagina = 5; //Quando estamos fazendo paginação é necessario informar a quantidade de linhas da table será exibida no caso 5
-            ViewBag.PaginaAtual = 1; //Aqui informamos a pagina selecionado quando o usuario faz um get a pagina inicial sempre será 1
-            ViewBag.QuantPaginas = (lista.Count / ViewBag.QtdMaximaLinhasPagina);
-            return Json(lista);
-        }
         #endregion
 
         #region MarcaProduto
